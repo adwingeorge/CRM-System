@@ -56,7 +56,7 @@ ROOT_URLCONF = 'crm_system.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,7 +68,6 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = 'crm_system.wsgi.application'
 
 
@@ -128,3 +127,5 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 LOGIN_REDIRECT_URL = '/accounts/profile/'
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
