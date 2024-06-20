@@ -8,6 +8,9 @@ from .forms import CustomUserCreationForm
 from .models import Customer
 from django.shortcuts import render, get_object_or_404
 from .forms import CustomerForm
+from django.core.paginator import Paginator
+from django.db.models import Q
+from django.urls import reverse
 
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
@@ -29,19 +32,28 @@ def edit_profile(request):
         form = CustomUserCreationForm(instance=request.user)
     return render(request, 'registration/edit_profile.html', {'form': form})
 
-
+@login_required
 def customers_view(request):
-    customers = Customer.objects.all()
-    return render(request, 'accounts/customers.html', {'customers': customers})
+    customers = Customer.objects.all().order_by('first_name')
+    paginator = Paginator(customers, 10)  # Show 10 customers per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'accounts/customers.html', {'page_obj': page_obj})
 
+@login_required
 def customer_list_view(request):
-    customers = Customer.objects.all()
-    return render(request, 'accounts/customer_list.html', {'customers': customers})
+    customers = Customer.objects.all().order_by('first_name')
+    paginator = Paginator(customers, 10)  # Show 10 customers per page.
 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'accounts/customer_list.html', {'page_obj': page_obj})
+
+@login_required
 def customer_detail_view(request, id):
     customer = get_object_or_404(Customer, id=id)
     return render(request, 'accounts/customer_detail.html', {'customer': customer})
-
 
 @login_required
 def create_customer(request):
@@ -52,6 +64,8 @@ def create_customer(request):
             customer.created_by = request.user
             customer.save()
             return redirect('customers')
+        else:
+            print(form.errors) 
     else:
         form = CustomerForm()
     return render(request, 'accounts/create_customer.html', {'form': form})
@@ -64,6 +78,16 @@ def update_customer(request, pk):
         if form.is_valid():
             form.save()
             return redirect('customers')
+        else:
+            print(form.errors)  
     else:
         form = CustomerForm(instance=customer)
     return render(request, 'accounts/update_customer.html', {'form': form})
+
+@login_required
+def delete_customer(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    if request.method == 'POST':
+        customer.delete()
+        return redirect(reverse('customer_list'))
+    return render(request, 'accounts/delete_customer.html', {'customer': customer})
