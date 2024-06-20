@@ -4,13 +4,15 @@ from django.contrib.auth.models import AbstractUser
 from crm_system import settings
 
 class Customer(models.Model):
-    name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     email = models.EmailField()
+    phone_number = models.CharField(max_length=15)
+    address = models.CharField(max_length=255)  # Make sure this matches the recent migration change
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
-
+        return f"{self.first_name} {self.last_name}"
 class Lead(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     description = models.TextField()
