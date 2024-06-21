@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customers</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Customers</h1>
+    <h2>Customers</h2>
     <ul>
         {% for customer in customers %}
-            <li>{{ customer.name }}</li>
+        <li>{{ customer.first_name }} {{ customer.last_name }} - <a href="{% url 'customer_detail' customer.id %}">Details</a></li>
         {% endfor %}
     </ul>
 </body>

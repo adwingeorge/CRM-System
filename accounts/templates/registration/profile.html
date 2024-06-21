@@ -1,6 +1,31 @@
-{% extends "base.html" %}
-{% block content %}
-  <h2>Profile</h2>
-  <p>Welcome, {{ user.username }}!</p>
-  <a href="{% url 'logout' %}">Logout</a>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'signup' %}">Signup</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li><a href="{% url 'customers' %}">Customer List</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Profile</h1>
+        <p>Welcome, {{ user.username }}!</p>
+        <a href="{% url 'edit_profile' %}">Edit Profile</a>
+        <h2>Customer Management</h2>
+        <ul>
+            <li><a href="{% url 'customers' %}">Customer List</a></li>
+            <li><a href="{% url 'create_customer' %}">Create Customer</a></li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -129,3 +129,6 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 LOGIN_REDIRECT_URL = '/accounts/profile/'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
