@@ -11,6 +11,11 @@ from .forms import CustomerForm
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.urls import reverse
+from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+
 
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
@@ -91,3 +96,17 @@ def delete_customer(request, pk):
         customer.delete()
         return redirect(reverse('customer_list'))
     return render(request, 'accounts/delete_customer.html', {'customer': customer})
+
+
+@csrf_exempt
+@api_view(['POST'])
+def api_login(request):
+    data = request.data
+    username = data.get('username')
+    password = data.get('password')
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return JsonResponse({'status': 'ok'})
+    else:
+        return JsonResponse({'status': 'error'}, status=400)
