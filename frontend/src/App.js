@@ -1,32 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Login from './components/Login';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Signup from './components/Signup';
+import Login from './components/Login';
 import Profile from './components/Profile';
 import CustomerList from './components/CustomerList';
 import CustomerDetail from './components/CustomerDetail';
 import CreateCustomer from './components/CreateCustomer';
 import UpdateCustomer from './components/UpdateCustomer';
-
+import DeleteCustomer from './components/DeleteCustomer';
 
 function App() {
   return (
-      <Router>
-          <div>
-              <Switch>
-                  <Route path="/login" component={Login} />
-                  <Route path="/signup" component={Signup} />
-                  <Route path="/profile" component={Profile} />
-                  <Route path="/customers" component={CustomerList} exact />
-                  <Route path="/customers/:id" component={CustomerDetail} />
-                  <Route path="/create-customer" component={CreateCustomer} />
-                  <Route path="/update-customer/:id" component={UpdateCustomer} />
-                  <Route path="/" component={Login} />
-              </Switch>
-          </div>
-      </Router>
+    <Router>
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/customers" element={<CustomerList />} />
+        <Route path="/customers/:id" element={<CustomerDetail />} />
+        <Route path="/create-customer" element={<CreateCustomer />} />
+        <Route path="/update-customer/:id" element={<UpdateCustomer />} />
+        <Route path="/delete-customer/:id" element={<DeleteCustomer />} />
+      </Routes>
+    </Router>
   );
 }
 

@@ -15,6 +15,9 @@ from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import Customer
+from .serializers import CustomerSerializer
 
 
 class SignUpView(CreateView):
@@ -110,3 +113,9 @@ def api_login(request):
         return JsonResponse({'status': 'ok'})
     else:
         return JsonResponse({'status': 'error'}, status=400)
+    
+@api_view(['GET'])
+def api_customer_list(request):
+    customers = Customer.objects.all()
+    serializer = CustomerSerializer(customers, many=True)
+    return Response(serializer.data)

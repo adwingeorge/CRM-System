@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import SignUpView, profile_view, edit_profile, customers_view, customer_list_view, customer_detail_view, create_customer, update_customer, delete_customer
+from . import views
 
 urlpatterns = [
     path('signup/', SignUpView.as_view(), name='signup'),
@@ -15,4 +16,5 @@ urlpatterns = [
     path('customers/create/', create_customer, name='create_customer'),
     path('customers/update/<int:pk>/', update_customer, name='update_customer'),
     path('customers/delete/<int:pk>/', delete_customer, name='delete_customer'),
+    path('api/customers/', views.api_customer_list, name='api_customer_list'),
 ]
